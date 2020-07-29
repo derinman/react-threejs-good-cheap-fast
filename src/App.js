@@ -1,16 +1,39 @@
 import * as THREE from 'three'
 import React, { Suspense, useState, useRef, useEffect } from 'react'
 import { Canvas, useLoader, useThree } from 'react-three-fiber'
+
 import Controls from './components/Controls'
 import Environment from './components/Environment'
 import GFCMachine from './components/GFCMachine'
 import Effects from './components/Effects'
-import './styles.css'
 import UI from './components/UI';
 import UISecondary from './components/UISecondary';
 import Loading from './components/Loading';
 
-export default function App() {
+import './styles.css'
+
+const PropellerSound = ({ url }) => {
+  const sound = useRef()
+  const { camera } = useThree()
+  const [listener] = useState(() => new THREE.AudioListener())
+  const buffer = useLoader(THREE.AudioLoader, url);
+  useEffect(() => {
+    sound.current.setBuffer(buffer)
+    sound.current.setRefDistance(1)
+    sound.current.setLoop(true)
+    sound.current.play()
+    camera.add(listener)
+    return () => {
+      if(sound.current.isPlaying) {
+        sound.current.stop()
+      }
+      camera.remove(listener);
+    }
+  }, [])
+  return <positionalAudio ref={sound} args={[listener]} />
+}
+
+function App() {
   // Controls disable pointerevents on movement to save some CPU cost
   // const [active, set] = useState(false);
   const [allowSound, setAllowSound] = useState(false);
@@ -53,7 +76,6 @@ export default function App() {
       {!loadUI && <Loading modelLoaded={modelLoaded}/>}
       {loadUI && <UI selections={selections}/>}
       
-      
       <div className="App__canvas">
         <Canvas
           concurrent
@@ -86,31 +108,11 @@ export default function App() {
           </Suspense>
           }
         </Canvas>
-        
       </div>
+      
       {loadUI && <UISecondary allowSound={allowSound} toggleSound={toggleSound}/>}
     </div>
   )
 }
 
-
-const PropellerSound = ({ url }) => {
-  const sound = useRef()
-  const { camera } = useThree()
-  const [listener] = useState(() => new THREE.AudioListener())
-  const buffer = useLoader(THREE.AudioLoader, url);
-  useEffect(() => {
-    sound.current.setBuffer(buffer)
-    sound.current.setRefDistance(1)
-    sound.current.setLoop(true)
-    sound.current.play()
-    camera.add(listener)
-    return () => {
-      if(sound.current.isPlaying) {
-        sound.current.stop()
-      }
-      camera.remove(listener);
-    }
-  }, [])
-  return <positionalAudio ref={sound} args={[listener]} />
-}
+export default App;

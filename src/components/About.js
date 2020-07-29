@@ -21,7 +21,7 @@ export default ({modalOpen, setModalOpen}) => {
             timeout: 500,
             classes: {
                root: classes.background
-             }
+            }
          }}
          >
          <Fade in={modalOpen}>
@@ -45,12 +45,12 @@ export default ({modalOpen, setModalOpen}) => {
 
 const useStyles = makeStyles(theme => ({
    modal: {
-     display: 'flex',
-     alignItems: 'center',
-     justifyContent: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
    },
    background: {
       backgroundColor: 'rgba(255, 255, 255, .6)',
       backdropFilter: 'blur(5px)'  
-    },
- }));
+   },
+}));
