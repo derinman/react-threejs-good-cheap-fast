@@ -21,7 +21,7 @@ export default ({modalOpen, setModalOpen}) => {
             timeout: 500,
             classes: {
                root: classes.background
-             }
+            }
          }}
          >
          <Fade in={modalOpen}>

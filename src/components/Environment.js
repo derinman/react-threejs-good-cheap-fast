@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useThree, useLoader } from 'react-three-fiber'
 import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
 
-export default function Environment({ background = false }) {
+function Environment({ background = false }) {
   const { gl, scene } = useThree()
   const [cubeMap] = useLoader(HDRCubeTextureLoader, [['px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr']], loader => {
     loader.setDataType(THREE.UnsignedByteType)
@@ -22,3 +22,5 @@ export default function Environment({ background = false }) {
   }, [cubeMap])
   return null
 }
+
+export default Environment;

@@ -45,7 +45,7 @@ function playRandomServo() {
   }
 }
 
-export default function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
+function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
   const group = useRef();
   const outerGroup = useRef();
   const { nodes, materials } = useLoader(GLTFLoader, 'gfc-hq.glb', loader => {
@@ -293,3 +293,5 @@ export default function GFCMachine({selections, allowSound, setModelLoaded, setN
     </a.group>
   )
 }
+
+export default GFCMachine;

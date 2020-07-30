@@ -10,7 +10,28 @@ import UI from './components/UI';
 import UISecondary from './components/UISecondary';
 import Loading from './components/Loading';
 
-export default function App() {
+const PropellerSound = ({ url }) => {
+  const sound = useRef()
+  const { camera } = useThree()
+  const [listener] = useState(() => new THREE.AudioListener())
+  const buffer = useLoader(THREE.AudioLoader, url);
+  useEffect(() => {
+    sound.current.setBuffer(buffer)
+    sound.current.setRefDistance(1)
+    sound.current.setLoop(true)
+    sound.current.play()
+    camera.add(listener)
+    return () => {
+      if(sound.current.isPlaying) {
+        sound.current.stop()
+      }
+      camera.remove(listener);
+    }
+  }, [])
+  return <positionalAudio ref={sound} args={[listener]} />
+}
+
+function App() {
   // Controls disable pointerevents on movement to save some CPU cost
   // const [active, set] = useState(false);
   const [allowSound, setAllowSound] = useState(false);
@@ -93,24 +114,4 @@ export default function App() {
   )
 }
 
-
-const PropellerSound = ({ url }) => {
-  const sound = useRef()
-  const { camera } = useThree()
-  const [listener] = useState(() => new THREE.AudioListener())
-  const buffer = useLoader(THREE.AudioLoader, url);
-  useEffect(() => {
-    sound.current.setBuffer(buffer)
-    sound.current.setRefDistance(1)
-    sound.current.setLoop(true)
-    sound.current.play()
-    camera.add(listener)
-    return () => {
-      if(sound.current.isPlaying) {
-        sound.current.stop()
-      }
-      camera.remove(listener);
-    }
-  }, [])
-  return <positionalAudio ref={sound} args={[listener]} />
-}
+export default App;
