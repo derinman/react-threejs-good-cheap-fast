@@ -1,15 +1,20 @@
 import * as THREE from 'three'
 import React, { Suspense, useState, useRef, useEffect } from 'react'
 import { Canvas, useLoader, useThree } from 'react-three-fiber'
+
 import Controls from './components/Controls'
 import Environment from './components/Environment'
 import GFCMachine from './components/GFCMachine'
 import Effects from './components/Effects'
-import './styles.css'
 import UI from './components/UI';
 import UISecondary from './components/UISecondary';
 import Loading from './components/Loading';
 
+<<<<<<< HEAD
+=======
+import './styles.css'
+
+>>>>>>> 8158f317c7f6e1350c59c662f90baae9fc594a18
 const PropellerSound = ({ url }) => {
   const sound = useRef()
   const { camera } = useThree()
@@ -74,7 +79,6 @@ function App() {
       {!loadUI && <Loading modelLoaded={modelLoaded}/>}
       {loadUI && <UI selections={selections}/>}
       
-      
       <div className="App__canvas">
         <Canvas
           concurrent
@@ -107,11 +111,15 @@ function App() {
           </Suspense>
           }
         </Canvas>
-        
       </div>
+      
       {loadUI && <UISecondary allowSound={allowSound} toggleSound={toggleSound}/>}
     </div>
   )
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 8158f317c7f6e1350c59c662f90baae9fc594a18
