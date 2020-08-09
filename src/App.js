@@ -10,11 +10,8 @@ import UI from './components/UI';
 import UISecondary from './components/UISecondary';
 import Loading from './components/Loading';
 
-<<<<<<< HEAD
-=======
 import './styles.css'
 
->>>>>>> 8158f317c7f6e1350c59c662f90baae9fc594a18
 const PropellerSound = ({ url }) => {
   const sound = useRef()
   const { camera } = useThree()
@@ -40,11 +37,11 @@ function App() {
   // Controls disable pointerevents on movement to save some CPU cost
   // const [active, set] = useState(false);
   const [allowSound, setAllowSound] = useState(false);
-  const [selections, setSelections] = React.useState([])
-  const [modelLoaded, setModelLoaded] = React.useState(false);
-  const [loadUI, setLoadUI] = React.useState(false);
+  const [selections, setSelections] = useState([])
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const [loadUI, setLoadUI] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(modelLoaded){
       setTimeout(() => {
         setLoadUI(true)
@@ -76,10 +73,18 @@ function App() {
 
   return (
     <div className="App">
+      
+      {/*Loading模型圈圈*/}
       {!loadUI && <Loading modelLoaded={modelLoaded}/>}
+      
+      {/*主要的白色字體UI*/}
       {loadUI && <UI selections={selections}/>}
       
+      {/*下面的 sound按鈕, About, Drag to orbit*/}
+      {loadUI && <UISecondary allowSound={allowSound} toggleSound={toggleSound}/>}
+
       <div className="App__canvas">
+        
         <Canvas
           concurrent
           noEvents={false}
@@ -89,10 +94,14 @@ function App() {
           onCreated={({ gl, scene }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping
             gl.outputEncoding = THREE.sRGBEncoding
-            // scene.background = new THREE.Color('#373740')
+            //scene.background = new THREE.Color('#373740')
           }}>
+          
           <ambientLight intensity={0.33}/>
-          <Controls />
+          
+          {/*讓模型可以Orbit*/}
+          <Controls/>          
+          
           <Suspense fallback={null}>
             <Environment />
             <GFCMachine 
@@ -104,22 +113,19 @@ function App() {
             />
             <Effects />
           </Suspense>
+          
           {/* Doesn't work in Safari! */}
           {allowSound && 
           <Suspense fallback={null}>
             <PropellerSound url="audio/propeller.ogg"/>
           </Suspense>
           }
+        
         </Canvas>
       </div>
-      
-      {loadUI && <UISecondary allowSound={allowSound} toggleSound={toggleSound}/>}
+    
     </div>
   )
 }
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> 8158f317c7f6e1350c59c662f90baae9fc594a18
