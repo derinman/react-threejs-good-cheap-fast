@@ -4,11 +4,11 @@ import './Loading.scss';
 
 export default (props) => {
   
-  const tween = useSpring({opacity: props.modelLoaded ? 0 : 1})
+  const tween = useSpring({opacity: props.modelLoaded ? 0 : 1})//model load好就透明度變0
     return (
       <animated.div style={tween} className="Loading">
-          <div className="Loading__spinner">
-          </div>
+          {/*spin的外面圈圈*/}
+          <div className="Loading__spinner"/>
           <div className="Loading__text">
             Loading
           </div>
