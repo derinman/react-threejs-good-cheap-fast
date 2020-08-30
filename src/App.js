@@ -35,7 +35,7 @@ const PropellerSound = ({ url }) => {
 
 function App() {
   // Controls disable pointerevents on movement to save some CPU cost
-  // const [active, set] = useState(false);
+  //const [active, set] = useState(false);
   const [allowSound, setAllowSound] = useState(false);
   const [selections, setSelections] = useState([])
   const [modelLoaded, setModelLoaded] = useState(false);
@@ -45,12 +45,12 @@ function App() {
     if(modelLoaded){
       setTimeout(() => {
         setLoadUI(true)
-      }, 2000)
+      }, 500)
     }
   }, [modelLoaded])
 
   const toggleSound = () => {
-    setAllowSound(s => !s);
+    setAllowSound(c => !c);
   }
 
   const setNewSelection = (id) => {
