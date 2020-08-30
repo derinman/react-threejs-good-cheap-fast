@@ -46,13 +46,18 @@ function playRandomServo() {
 }
 
 function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
+  
   const group = useRef();
   const outerGroup = useRef();
+  
   const { nodes, materials } = useLoader(GLTFLoader, 'gfc-hq.glb', loader => {
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('draco-gltf/')
     loader.setDRACOLoader(dracoLoader)
   })
+
+  //console.log( 'node:',nodes )
+  //console.log( 'materials:',materials )
 
   const [hovered, setHover] = useState(false);
   useEffect(() => void (document.body.style.cursor = hovered ? 'pointer' : 'auto'), [hovered]);
@@ -66,6 +71,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
 
   const propeller = useRef();
   const sphere = useRef(); //only for init spinning
+  
   useFrame( ({ clock }) => {
       propeller.current.rotation.y += .4;
       
@@ -94,6 +100,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     }
   }
   
+  //console.log('selectins: ', selections)
   const isActive = (selection) => {
     return selections.includes(selection)
   }
@@ -123,7 +130,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     return selection === initLights[initLightsIdx]
   }
 
-
+  //每種selections中間球轉的角度
   const sphereRotVal = () => {
     //HACK I don't know why I have to do this but putting this default spin
     //masks the fact that the init constant spin doesn't seemlessly animate
@@ -143,7 +150,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     } 
   }
 
-  
+  //按鈕未按跟有按位移
   const {buttonPos1, buttonPos2, buttonPos3} = useSpring({
     buttonPos1: isActive('good') ? -.06 : .06,
     buttonPos2: isActive('fast') ? -.06 : .06,
@@ -151,6 +158,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     config: { duration: 150 }
   })
 
+  //箭頭旋轉的角度
   const {arrowRot1, arrowRot2, arrowRot3} = useSpring({
     arrowRot1: isActive('good') ? Math.PI : 0,
     arrowRot2: isActive('fast') ? Math.PI : 0,
@@ -158,17 +166,21 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     config: { mass: 1, tension: 150, friction: 12 }
   })
 
+  //中間的球旋轉
   const {sphereRot} = useSpring({
     to: {sphereRot: sphereRotVal()},
     from: {sphereRot: 16}
   })
 
+  //剛開始的時候從Y從3.2 to 0
   const {machineY} = useSpring({
     to: {machineY: 0},
     from: {machineY: 3.2},
     delay: 500,
     config: { mass: 1, tension: 280, friction: 120 }
   })
+
+
 
   return (
     <a.group 
@@ -231,7 +243,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
           />
 
 
-          {/* LIGHTS */}
+          {/* LIGHTS 按鈕的綠燈 */}
           <mesh material={nodes.light1.material} geometry={nodes.light1.geometry}>
             <meshPhongMaterial 
               attach = "material"
@@ -256,7 +268,7 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
               emissiveIntensity = {isActive('cheap') || isInitActive('cheap') ? 50 : 0}
             />
           </mesh>
-
+          
 
           {/* SPHERE */}
           {selections.length === 2

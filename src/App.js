@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import React, { Suspense, useState, useRef, useEffect } from 'react'
+import React, {  useState, useEffect, useRef, Suspense} from 'react'
 import { Canvas, useLoader, useThree } from 'react-three-fiber'
 
 import Controls from './components/Controls'
