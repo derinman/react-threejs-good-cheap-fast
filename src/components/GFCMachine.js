@@ -142,11 +142,11 @@ function GFCMachine({selections, allowSound, setModelLoaded, setNewSelection}) {
     }
 
     if(selections.every(s => s !== 'good')) { //never animates on first selection (wtf?)
-        return Math.PI/1.5;
+        return Math.PI*2/3;//selections ['fast', 'good']
     } else if(selections.every(s => s !== 'fast')) {
-        return 0;
+        return 0;//selections ['good','cheap']
     } else if(selections.every(s => s !== 'cheap')) { //always animates on first selection (wtf?)
-        return -Math.PI/1.5;
+        return -Math.PI*2/3; //selection ['good', 'fast']
     } 
   }
 

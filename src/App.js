@@ -2,10 +2,10 @@ import * as THREE from 'three'
 import React, {  useState, useEffect, useRef, Suspense} from 'react'
 import { Canvas, useLoader, useThree } from 'react-three-fiber'
 
-import Controls from './components/Controls'
-import Environment from './components/Environment'
-import GFCMachine from './components/GFCMachine'
-import Effects from './components/Effects'
+import Controls from './components/Controls'//控制模型oribt
+import Environment from './components/Environment'//
+import GFCMachine from './components/GFCMachine'//主要3D模型
+import Effects from './components/Effects'//模型postprocess效果
 import UI from './components/UI';
 import UISecondary from './components/UISecondary';
 import Loading from './components/Loading';
@@ -34,25 +34,22 @@ const PropellerSound = ({ url }) => {
 }
 
 function App() {
-  // Controls disable pointerevents on movement to save some CPU cost
+  //Controls disable pointerevents on movement to save some CPU cost
   //const [active, set] = useState(false);
   const [allowSound, setAllowSound] = useState(false);
-  const [selections, setSelections] = useState([])
   const [modelLoaded, setModelLoaded] = useState(false);
   const [loadUI, setLoadUI] = useState(false);
+  const [selections, setSelections] = useState([]); //['fast', 'good']
 
-  useEffect(() => {
-    if(modelLoaded){
-      setTimeout(() => {
-        setLoadUI(true)
-      }, 500)
-    }
-  }, [modelLoaded])
+
 
   const toggleSound = () => {
     setAllowSound(c => !c);
   }
 
+  console.log(selections);
+  
+  //id 'good' 'fast' 'cheap'
   const setNewSelection = (id) => {
     //only update if this is a new value
     if(selections.includes(id)){
@@ -63,13 +60,21 @@ function App() {
 
     if (selections.length === 2){
       //keep last selection, make it first
-      updatedSelections = selections.slice(1, 2);
+      updatedSelections = selections.slice(1, 2); //slice出B from ['A','B']
     }
+    //console.log('updateSelections: ',updatedSelections)
 
     //add new last selection
     setSelections(updatedSelections.concat([id]));
-    
   }
+
+  useEffect(() => {
+    if(modelLoaded){
+      setTimeout(() => {
+        setLoadUI(true)
+      }, 500)
+    }
+  }, [modelLoaded])
 
   return (
     <div className="App">
