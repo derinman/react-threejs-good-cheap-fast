@@ -12,6 +12,8 @@ import Loading from './components/Loading';
 
 import './styles.css'
 
+console.log(Canvas)
+
 const PropellerSound = ({ url }) => {
   const sound = useRef()
   const { camera } = useThree()
